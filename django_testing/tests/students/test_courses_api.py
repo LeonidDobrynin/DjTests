@@ -54,10 +54,11 @@ def client():
 
 # #Проверка курса по id
 # @pytest.mark.django_db
-# def test_list_courses(client,create_student,course_factory):
+# def test_id_courses(client,create_student,course_factory):
 #     course_create = course_factory(_quantity=5)
-#
-#     response = client.get('/courses/?id=1')
+#     checked_course = course_create[0]
+#     id_course = checked_course.id
+#     response = client.get('/courses/?id=' + str(id_course))
 #
 #     assert response.status_code == 200
 #     data = response.json()
@@ -66,7 +67,7 @@ def client():
 
 # #Проверка курса по name
 # @pytest.mark.django_db
-# def test_list_courses(client,create_student,course_factory):
+# def test_name_courses(client,create_student,course_factory):
 #     course_create = course_factory(_quantity=5)
 #     req = '/courses/?name='
 #     name_course = course_create[0].name
@@ -77,35 +78,39 @@ def client():
 #     for i, c in enumerate(data):
 #         assert c['name'] == course_create[i].name
 
-# #Проверка курса по id
+# #Проверка создания курса по запросу
 # @pytest.mark.django_db
-# def test_list_courses(client):
+# def test_create_request_courses(client):
 #
 #     response = client.post('/courses/', data={'name':'Course_name', 'student':1}  )
 #
 #     assert response.status_code == 201
 
-# #Проверка курса по id
+# #Проверка обновления курса
 # @pytest.mark.django_db
-# def test_list_courses(client,create_student,course_factory):
+# def test_update_courses(client,create_student,course_factory):
+#
+#
+#     course_create = course_factory(_quantity=5)
+#     checked_course = course_create[0]
+#     id_course = checked_course.id
+#
+#
+#     response = client.patch('/courses/' + str(id_course) + '/', data={'name':'NEW_TEXT',}  )
+#
+#     assert response.status_code == 200
+
+# #Проверка удаления курса
+# @pytest.mark.django_db
+# def test_delete_courses(client,create_student,course_factory):
 #
 #
 #     course_create = course_factory(_quantity=5)
 #
+#     checked_course = course_create[0]
+#     id_course = checked_course.id
+#     response = client.delete('/courses/' + str(id_course) + '/' )
 #
-#     response = client.patch('/courses/1/', data={'name':'NEW_TEXT',}  )
-#
-#     assert response.status_code == 200
+#     assert response.status_code == 204
 
-#Проверка курса по id
-@pytest.mark.django_db
-def test_list_courses(client,create_student,course_factory):
-
-
-    course_create = course_factory(_quantity=5)
-
-
-    response = client.delete('/courses/1/' )
-
-    assert response.status_code == 204
-
+#Что за тест на получение деталей объявления? В задании 7 тестов, у меня тоже 7 тестов
