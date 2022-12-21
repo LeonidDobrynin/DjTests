@@ -24,26 +24,26 @@ def client():
 
 
 
-# #Проверка создания курса
-# @pytest.mark.django_db
-# def test_courses(client,create_student,course_factory):
-#     course_create = course_factory(_quantity=1)
-#
-#     response = client.get('/courses/')
-#
-#     assert response.status_code == 200
-#     data = response.json()
-#     for i, c in enumerate(data):
-#         assert c['name'] == course_create[i].name
+#Проверка создания курса
+@pytest.mark.django_db
+def test_courses(client,create_student,course_factory):
+    course_create = course_factory(_quantity=1)
+    checked_course = course_create[0]
+    id_course = checked_course.id
+    response = client.get('/api/v1/courses/'+str(id_course)+'/')
+
+    assert response.status_code == 200
+    data = response.json()
+    assert data['name'] == course_create[data['id'] - 1].name
 
 
 
-# #Проверка списка курсов
+#Проверка списка курсов
 # @pytest.mark.django_db
 # def test_list_courses(client,create_student,course_factory):
 #     course_create = course_factory(_quantity=5)
 #
-#     response = client.get('/courses/')
+#     response = client.get('/api/v1/courses/')
 #
 #     assert response.status_code == 200
 #     data = response.json()
@@ -113,4 +113,3 @@ def client():
 #
 #     assert response.status_code == 204
 
-#Что за тест на получение деталей объявления? В задании 7 тестов, у меня тоже 7 тестов
